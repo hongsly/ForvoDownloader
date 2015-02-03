@@ -3,7 +3,7 @@ import urllib
 import urllib2
 import json
 
-def forvoRequest(QUERY, LANG, apikey, ACT='word-pronunciations', FORMAT='mp3', free= True):
+def forvoRequest(QUERY, LANG, apikey, ACT='word-pronunciations', FORMAT='mp3', free= True, limit = 3):
     # action, default is 'word-pronunciations', query, language, apikey, TRUE if free api(default), FALSE if commercial
     # Return a list of link to mp3 pronunciations for the word QUERY in LANG language.
     # FORMAT='ogg' will return a list of link to ogg pronunciations 
@@ -49,7 +49,7 @@ def forvoRequest(QUERY, LANG, apikey, ACT='word-pronunciations', FORMAT='mp3', f
         for i in data[u'items']:
               audioFormat = u'path'+FORMAT
               paths.append(i[audioFormat])
-        return paths
+        return paths[:limit]
         
     else:
         #The json hasn't a u'items' key
