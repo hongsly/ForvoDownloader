@@ -1,4 +1,4 @@
-import forvo
+from forvoRequest import forvoRequest
 import os
 from Tkinter import Tk
 from tkFileDialog import askopenfilename
@@ -17,7 +17,7 @@ def Main(lang,limit):
             
             for i in words:
                   
-                  r = ForvoRequest(i,lang,APIKEY)
+                  r = forvoRequest(i,lang,APIKEY)
 
                   if r:
                         DownloadMp3(r, limit, i, lang_dir)
@@ -35,15 +35,16 @@ def fileChoose():
 def DownloadMp3(urlList, limit, word, folder):
       #download a mp3 file, rename it and write it in a costum folder
       for i in range(0,limit):
-            mp3 = requests.get(urlList[i])                 
+            # mp3 = requests.get(urlList[i])                 
             file_name   = word.replace('\n','')+'.{0}'.format(i)+'.mp3'
             file_path   = os.path.join(folder, file_name)
                   
             if not os.path.exists(folder):
                   os.makedirs(folder)              
             else:
-                  with open(file_path,"wb") as out:
-                        #we open a new mp3 file and we name it after the word we're downloading.
-                        #The file it's opened in write-binary mode
-                        out.write(mp3.content)
+                  urllib.urlretrieve(urlList[i], file_path)
+                  #with open(file_path,"wb") as out:
+                  #      #we open a new mp3 file and we name it after the word we're downloading.
+                  #      #The file it's opened in write-binary mode
+                  #      out.write(mp3.content)
       
